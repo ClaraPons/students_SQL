@@ -1,0 +1,684 @@
+- MISE EN PLACE DB
+
+///////////////////////////////
+
+CREATE DATABASE school
+    -> ;
+Query OK, 1 row affected (0,03 sec)
+
+mysql> SHOW DATABASES
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| school             |
+| sys                |
+| user               |
++--------------------+
+6 rows in set (0,01 sec)
+
+mysql> USE school;
+Database changed
+mysql> SELECT DATABASE() FROM DUAL;
++------------+
+| DATABASE() |
++------------+
+| school     |
++------------+
+1 row in set (0,00 sec)
+
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
+mysql> CREATE TABLE students ( id INT NOT NULL AUTO_INCREMENT, name VARCHAR(30), city VARCHAR(30), PRIMARY KEY (id) );
+Query OK, 0 rows affected (0,02 sec)
+
+mysql> DESCRIBE students
+    -> ;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int         | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(30) | YES  |     | NULL    |                |
+| city  | varchar(30) | YES  |     | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+3 rows in set (0,01 sec)
+
+mysql> INSERT INTO students (name, city)
+    -> VALUES ("Véronique", "Paris");
+Query OK, 1 row affected (0,01 sec)
+
+mysql> SELECT *
+    -> FROM students;
++----+------------+-------+
+| id | name       | city  |
++----+------------+-------+
+|  1 | Véronique  | Paris |
++----+------------+-------+
+1 row in set (0,00 sec)
+
+mysql> INSERT INTO students (name, city) VALUES ("Steeven", "Lyon");
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO students (name, city) VALUES ("Marc", "Marseille");
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO students (name, city) VALUES ("Nour", "Lyon");
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO students (name, city) VALUES ("Romain", "Paris");
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO students (name, city) VALUES ("Sophie", "Paris");
+Query OK, 1 row affected (0,00 sec)
+
+mysql> SELECT *
+    -> FROM students;
++----+------------+-----------+
+| id | name       | city      |
++----+------------+-----------+
+|  1 | Véronique  | Paris     |
+|  2 | Steeven    | Lyon      |
+|  3 | Marc       | Marseille |
+|  4 | Nour       | Lyon      |
+|  5 | Romain     | Paris     |
+|  6 | Sophie     | Paris     |
++----+------------+-----------+
+6 rows in set (0,00 sec)
+
+
+/////////////////////////////////////////////////////////////////////
+
+
+
+mysql> CREATE TABLE languages (
+    -> id INT NOT NULL AUTO_INCREMENT,
+    -> name VARCHAR(30),
+    -> PRIMARY KEY (id)
+    -> );
+Query OK, 0 rows affected (0,01 sec)
+
+mysql> DESCRIBE languages
+    -> ;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int         | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(30) | YES  |     | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0,00 sec)
+
+mysql> INSERT INTO languages (name) VALUES ("French");
+Query OK, 1 row affected (0,00 sec)
+
+mysql> SELECT *
+    -> FROM languages
+    -> ;
++----+--------+
+| id | name   |
++----+--------+
+|  1 | French |
++----+--------+
+1 row in set (0,00 sec)
+
+mysql> INSERT INTO languages (name) VALUES ("English");
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO languages (name) VALUES ("German");
+Query OK, 1 row affected (0,01 sec)
+
+mysql> INSERT INTO languages (name) VALUES ("Spanish");
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO languages (name) VALUES ("Mandarin");
+Query OK, 1 row affected (0,00 sec)
+
+mysql> SELECT *
+    -> FROM languages;
++----+----------+
+| id | name     |
++----+----------+
+|  1 | French   |
+|  2 | English  |
+|  3 | German   |
+|  4 | Spanish  |
+|  5 | Mandarin |
++----+----------+
+5 rows in set (0,00 sec)
+
+/////////////////////////////////////////////////////////////
+
+
+mysql> CREATE TABLE favorites (
+    -> id INT NOT NULL AUTO_INCREMENT,
+    -> class VARCHAR(30),
+    -> sport VARCHAR(30),
+    -> student_id INT,
+    -> PRIMARY KEY (id),
+    -> FOREIGN KEY (student_id) REFERENCES students(id)
+    -> );
+Query OK, 0 rows affected (0,02 sec)
+
+mysql> DESCRIBE favorites;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int         | NO   | PRI | NULL    | auto_increment |
+| class      | varchar(30) | YES  |     | NULL    |                |
+| sport      | varchar(30) | YES  |     | NULL    |                |
+| student_id | int         | YES  | MUL | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+4 rows in set (0,00 sec)
+
+mysql> INSERT INTO favorites (class, sport) VALUES ("Maths", "Cricket");
+Query OK, 1 row affected (0,00 sec)
+
+mysql> SELECT *
+    -> FROM favorites;
++----+-------+---------+------------+
+| id | class | sport   | student_id |
++----+-------+---------+------------+
+|  1 | Maths | Cricket |       NULL |
++----+-------+---------+------------+
+1 row in set (0,00 sec)
+
+mysql> INSERT INTO favorites (class, sport) VALUES ("Music", "Hip-Hop");
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO favorites (class, sport) VALUES ("Arts", "Boxing");
+Query OK, 1 row affected (0,01 sec)
+
+mysql> INSERT INTO favorites (class, sport) VALUES ("Literature", "Tennis");
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO favorites (class, sport) VALUES ("Computer science", "Tennis");
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO favorites (class, sport) VALUES ("Arts", "Baseball");
+Query OK, 1 row affected (0,01 sec)
+
+mysql> SELECT *
+    -> FROM favorites;
++----+------------------+----------+------------+
+| id | class            | sport    | student_id |
++----+------------------+----------+------------+
+|  1 | Maths            | Cricket  |       NULL |
+|  2 | Music            | Hip-Hop  |       NULL |
+|  3 | Arts             | Boxing   |       NULL |
+|  4 | Literature       | Tennis   |       NULL |
+|  5 | Computer science | Tennis   |       NULL |
+|  6 | Arts             | Baseball |       NULL |
++----+------------------+----------+------------+
+6 rows in set (0,00 sec)
+
+UPDATE favorites SET student_id=2 WHERE id=1;
+Query OK, 1 row affected (0,01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE favorites SET student_id=6  WHERE id=2;
+Query OK, 1 row affected (0,00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE favorites SET student_id=1  WHERE id=3;
+Query OK, 1 row affected (0,01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE favorites SET student_id=3  WHERE id=4;
+Query OK, 1 row affected (0,01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE favorites SET student_id=5  WHERE id=5;
+Query OK, 1 row affected (0,00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE favorites SET student_id=4  WHERE id=6;
+Query OK, 1 row affected (0,00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT *
+    -> FROM favorites;
++----+------------------+----------+------------+
+| id | class            | sport    | student_id |
++----+------------------+----------+------------+
+|  1 | Maths            | Cricket  |          2 |
+|  2 | Music            | Hip-Hop  |          6 |
+|  3 | Arts             | Boxing   |          1 |
+|  4 | Literature       | Tennis   |          3 |
+|  5 | Computer science | Tennis   |          5 |
+|  6 | Arts             | Baseball |          4 |
++----+------------------+----------+------------+
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+mysql> CREATE TABLE students_languages (
+    -> id INT NOT NULL AUTO_INCREMENT,
+    -> student_id INT,
+    -> language_id INT,
+    -> PRIMARY KEY (id),
+    -> FOREIGN KEY (student_id) REFERENCES students(id),
+    -> FOREIGN KEY (language_id) REFERENCES languages(id),
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 8
+mysql> CREATE TABLE students_languages ( id INT NOT NULL AUTO_INCREMENT, student_id INT, language_id INT, PRIMARY KEY (id),  FOREIGN KEY (student_id) REFERENCES students(id), FOREIGN KEY (language_id) REFERENCES languages(id) );
+Query OK, 0 rows affected (0,02 sec)
+
+mysql> DESCRIBE students_languages;
++-------------+------+------+-----+---------+----------------+
+| Field       | Type | Null | Key | Default | Extra          |
++-------------+------+------+-----+---------+----------------+
+| id          | int  | NO   | PRI | NULL    | auto_increment |
+| student_id  | int  | YES  | MUL | NULL    |                |
+| language_id | int  | YES  | MUL | NULL    |                |
++-------------+------+------+-----+---------+----------------+
+3 rows in set (0,00 sec)
+
+mysql> INSERT INTO students_languages (student_id, language_id) VALUES (1, 1);
+Query OK, 1 row affected (0,01 sec)
+
+mysql> SELECT *
+    -> FROM students_languages;
++----+------------+-------------+
+| id | student_id | language_id |
++----+------------+-------------+
+|  1 |          1 |           1 |
++----+------------+-------------+
+1 row in set (0,00 sec)
+
+mysql> INSERT INTO students_languages (student_id, language_id) VALUES (1, 2);
+Query OK, 1 row affected (0,01 sec)
+
+mysql> INSERT INTO students_languages (student_id, language_id) VALUES (2, 1);
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO students_languages (student_id, language_id) VALUES (2, 3);
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO students_languages (student_id, language_id) VALUES (3, 1);
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO students_languages (student_id, language_id) VALUES (4, 1);
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO students_languages (student_id, language_id) VALUES (4, 2);
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO students_languages (student_id, language_id) VALUES (4, 4);
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO students_languages (student_id, language_id) VALUES (4, 5);
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO students_languages (student_id, language_id) VALUES (5, 1);
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO students_languages (student_id, language_id) VALUES (5, 5);
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO students_languages (student_id, language_id) VALUES (6, 1);
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO students_languages (student_id, language_id) VALUES (6, 2);
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO students_languages (student_id, language_id) VALUES (6, 3);
+Query OK, 1 row affected (0,00 sec)
+
+mysql> SELECT *
+    -> FROM students_languages;
++----+------------+-------------+
+| id | student_id | language_id |
++----+------------+-------------+
+|  1 |          1 |           1 |
+|  2 |          1 |           2 |
+|  3 |          2 |           1 |
+|  4 |          2 |           3 |
+|  5 |          3 |           1 |
+|  6 |          4 |           1 |
+|  7 |          4 |           2 |
+|  8 |          4 |           4 |
+|  9 |          4 |           5 |
+| 10 |          5 |           1 |
+| 11 |          5 |           5 |
+| 12 |          6 |           1 |
+| 13 |          6 |           2 |
+| 14 |          6 |           3 |
++----+------------+-------------+
+14 rows in set (0,00 sec)
+
+//////////////////////////////////////////////////////////////////
+
+- RAPPORT LVL 1
+
+1. SELECT *
+    -> FROM students
+    -> WHERE id = 3;
++----+------+-----------+
+| id | name | city      |
++----+------+-----------+
+|  3 | Marc | Marseille |
++----+------+-----------+
+
+2. SELECT *
+    -> FROM students
+    -> WHERE id = 6;
++----+--------+-------+
+| id | name   | city  |
++----+--------+-------+
+|  6 | Sophie | Paris |
++----+--------+-------+
+
+3. SELECT DISTINCT name, city
+    -> FROM students
+    -> WHERE id = 1;
++------------+-------+
+| name       | city  |
++------------+-------+
+| Véronique  | Paris |
++------------+-------+
+
+4. SELECT DISTINCT name
+    -> FROM students
+    -> WHERE id = 2;
++---------+
+| name    |
++---------+
+| Steeven |
++---------+
+
+5. SELECT *
+    -> FROM students
+    -> WHERE city = "Paris";
++----+------------+-------+
+| id | name       | city  |
++----+------------+-------+
+|  1 | Véronique  | Paris |
+|  5 | Romain     | Paris |
+|  6 | Sophie     | Paris |
++----+------------+-------+
+
+6. SELECT DISTINCT name  FROM students  WHERE city = "Lyon";
++---------+
+| name    |
++---------+
+| Steeven |
+| Nour    |
++---------+
+
+- RAPPORT LVL 2
+
+1. SELECT students.*,  favorites.class, favorites.sport 
+   -> FROM students 
+   -> INNER JOIN favorites ON  favorites.student_id = students.id  
+   -> WHERE students.id = 5;
++----+--------+-------+------------------+--------+
+| id | name   | city  | class            | sport  |
++----+--------+-------+------------------+--------+
+|  5 | Romain | Paris | Computer science | Tennis |
++----+--------+-------+------------------+--------+
+
+2. SELECT students.name, favorites.sport  
+   -> FROM students 
+   -> INNER JOIN favorites ON favorites.student_id = students.id 
+   -> WHERE students.id = 4;
++------+----------+
+| name | sport    |
++------+----------+
+| Nour | Baseball |
++------+----------+
+
+3. SELECT students.name, favorites.class  
+   -> FROM students 
+   -> INNER JOIN favorites ON favorites.student_id = students.id 
+   -> WHERE students.id = 1;
++------------+-------+
+| name       | class |
++------------+-------+
+| Véronique  | Arts  |
++------------+-------+
+
+4. SELECT students.* 
+   -> FROM students 
+   -> INNER JOIN favorites ON favorites.student_id = students.id 
+   -> WHERE favorites.class = "Music";
++----+--------+-------+
+| id | name   | city  |
++----+--------+-------+
+|  6 | Sophie | Paris |
++----+--------+-------+
+
+5. SELECT students.name 
+   -> FROM students 
+   -> INNER JOIN favorites ON favorites.student_id = students.id 
+   -> WHERE favorites.sport = "Tennis";
++--------+
+| name   |
++--------+
+| Marc   |
+| Romain |
++--------+
+
+6. SELECT students.name 
+   -> FROM students 
+   -> INNER JOIN favorites ON favorites.student_id = students.id 
+   -> WHERE favorites.class = "Arts";
++------------+
+| name       |
++------------+
+| Véronique  |
+| Nour       |
++------------+
+
+7. SELECT COUNT(*)
+    -> FROM students
+    -> WHERE city = "Paris";
++----------+
+| COUNT(*) |
++----------+
+|        3 |
++----------+
+
+- RAPPORT LVL 3
+
+1. SELECT students.*, languages.name  
+   -> FROM students 
+   -> INNER JOIN students_languages ON students_languages.student_id = students.id  
+   -> INNER JOIN languages ON languages.id = students_languages.language_id  
+   -> WHERE students.id = 1;
++----+------------+-------+---------+
+| id | name       | city  | name    |
++----+------------+-------+---------+
+|  1 | Véronique  | Paris | French  |
+|  1 | Véronique  | Paris | English |
++----+------------+-------+---------+
+
+2. SELECT students.*, languages.name  
+   -> FROM students 
+   -> INNER JOIN students_languages ON students_languages.student_id = students.id  
+   -> INNER JOIN languages ON languages.id = students_languages.language_id  
+   -> WHERE students.id = 4;
++----+------+------+----------+
+| id | name | city | name     |
++----+------+------+----------+
+|  4 | Nour | Lyon | French   |
+|  4 | Nour | Lyon | English  |
+|  4 | Nour | Lyon | Spanish  |
+|  4 | Nour | Lyon | Mandarin |
++----+------+------+----------+
+
+3. SELECT students.name, languages.name 
+   -> FROM students 
+   -> INNER JOIN students_languages ON students_languages.student_id = students.id 
+   -> INNER JOIN languages ON languages.id = students_languages.language_id  
+   -> WHERE students.id = 5;
++--------+----------+
+| name   | name     |
++--------+----------+
+| Romain | French   |
+| Romain | Mandarin |
++--------+----------+
+
+- RAPPORT LVL 4
+
+1. UPDATE students  
+   -> SET name = "Nouri" 
+   -> WHERE students.id = 4;
+
+Query OK, 1 row affected (0,02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT *
+    -> FROM students;
++----+------------+-----------+
+| id | name       | city      |
++----+------------+-----------+
+|  1 | Véronique  | Paris     |
+|  2 | Steeven    | Lyon      |
+|  3 | Marc       | Marseille |
+|  4 | Nouri      | Lyon      |
+|  5 | Romain     | Paris     |
+|  6 | Sophie     | Paris     |
++----+------------+-----------+
+
+2.  UPDATE students 
+    -> SET city = "Londres" 
+    -> WHERE students.id = 1;
+
+Query OK, 1 row affected (0,00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT *
+    -> FROM students;
++----+------------+-----------+
+| id | name       | city      |
++----+------------+-----------+
+|  1 | Véronique  | Londres   |
+|  2 | Steeven    | Lyon      |
+|  3 | Marc       | Marseille |
+|  4 | Nouri      | Lyon      |
+|  5 | Romain     | Paris     |
+|  6 | Sophie     | Paris     |
++----+------------+-----------+
+6 rows in set (0,00 sec)
+
+
+3.  DELETE FROM students_languages  WHERE student_id = 2;
+Query OK, 2 rows affected (0,01 sec)
+
+mysql> SELECT *
+    -> FROM students_languages;
++----+------------+-------------+
+| id | student_id | language_id |
++----+------------+-------------+
+|  1 |          1 |           1 |
+|  5 |          3 |           1 |
+|  6 |          4 |           1 |
+|  7 |          4 |           2 |
+|  8 |          4 |           4 |
+|  9 |          4 |           5 |
+| 10 |          5 |           1 |
+| 11 |          5 |           5 |
+| 12 |          6 |           1 |
+| 13 |          6 |           2 |
+| 14 |          6 |           3 |
++----+------------+-------------+
+
+DELETE FROM favorites WHERE student_id = 2;
+Query OK, 1 row affected (0,01 sec)
+
+mysql> SELECT *
+    -> FROM favorites;
++----+------------------+----------+------------+
+| id | class            | sport    | student_id |
++----+------------------+----------+------------+
+|  2 | Music            | Hip-Hop  |          6 |
+|  3 | Arts             | Boxing   |          1 |
+|  4 | Literature       | Tennis   |          3 |
+|  5 | Computer science | Tennis   |          5 |
+|  6 | Arts             | Baseball |          4 |
++----+------------------+----------+------------+
+
+DELETE FROM students WHERE id = 2;
+Query OK, 1 row affected (0,01 sec)
+
+mysql> SELECT *
+    -> FROM students;
++----+------------+-----------+
+| id | name       | city      |
++----+------------+-----------+
+|  1 | Véronique  | Londres   |
+|  3 | Marc       | Marseille |
+|  4 | Nouri      | Lyon      |
+|  5 | Romain     | Paris     |
+|  6 | Sophie     | Paris     |
++----+------------+-----------+
+
+
+4. ALTER TABLE students_languages 
+   -> drop foreign key students_languages_ibfk_1;
+
+Query OK, 0 rows affected (0,01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+ALTER TABLE favorites 
+-> drop foreign key favorites_ibfk_1;
+
+Query OK, 0 rows affected (0,02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+DELETE FROM students
+-> where city = "Paris";
+
+Query OK, 2 rows affected (0,00 sec)
+
+SELECT *
+   -> FROM students
+   -> ;
++----+------------+-----------+
+| id | name       | city      |
++----+------------+-----------+
+|  1 | Véronique  | Londres   |
+|  3 | Marc       | Marseille |
+|  4 | Nouri      | Lyon      |
++----+------------+-----------+
+
+- RAPPORT LVL 5
+
+1. SELECT * 
+   -> FROM students  
+   -> WHERE name LIKE  "%e%";
+
++----+------------+---------+
+| id | name       | city    |
++----+------------+---------+
+|  1 | Véronique  | Londres |
++----+------------+---------+
+
+
+2. SELECT students.name, favorites.sport 
+   -> FROM students 
+   -> INNER JOIN favorites ON favorites.student_id = students.id 
+   -> WHERE students.name LIKE "%e%";
+
++------------+--------+
+| name       | sport  |
++------------+--------+
+| Véronique  | Boxing |
++------------+--------+
+
+3. SELECT students.name, students.city, favorites.class 
+   -> FROM students 
+   -> INNER JOIN favorites ON favorites.student_id = students.id 
+   -> WHERE students.city LIKE "%i%";
++------+-----------+------------+
+| name | city      | class      |
++------+-----------+------------+
+| Marc | Marseille | Literature |
++------+-----------+------------+
+
+
